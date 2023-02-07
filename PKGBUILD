@@ -3,8 +3,8 @@
 # Contributor: Felix Yan <felixonmars@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
-pkgname=qt6-base-git
-pkgver=6.0.0_r58826.g6fa2ee7f4a
+pkgname=qt6-full-git
+pkgver=6.0.0_r5244.g5b22f8ec
 pkgrel=1
 arch=($CARCH)
 url='https://www.qt.io'
@@ -22,20 +22,49 @@ optdepends=('postgresql-libs: PostgreSQL driver'
             'freetds: MS SQL driver'
             'gtk3: GTK platform plugin'
             'perl: for fixqt4headers and syncqt')
-conflicts=(${pkgname%-git})
-provides=(${pkgname%-git})
+conflicts=(${pkgname%-git} qt6-multimedia-ffmpeg)
+provides=(${pkgname%-git} qt6-multimedia-ffmpeg)
+_modules=(
+    qtbase
+    qtmultimedia
+    qtserialport
+    qtshadertools
+    qtsvg
+    qtdeclarative
+    qttools
+    qtwebsockets
+  )
+
 groups=(qt6)
-source=(git+https://code.qt.io/qt/qtbase.git#branch=dev)
-sha256sums=('SKIP')
+source=(
+    qt6::git+https://code.qt.io/qt/qt5.git#branch=dev
+    )
+  sha256sums=(
+      'SKIP'
+      )
+
+for module in "${_modules[@]}"; do
+  source+=("git+https://code.qt.io/qt/${module}.git#branch=dev")
+  conflicts+=(qt6-"${module#qt}")
+  provides+=(qt6-"${module#qt}")
+  sha256sums+=('SKIP')
+done
 
 pkgver() {
-  cd qtbase
+  cd qt6
   _ver="$(git describe | sed 's/^v//;s/-.*//')"
   echo "${_ver}_r$(git rev-list --count HEAD).g$(git rev-parse --short HEAD)"
 }
 
 build() {
-  cmake -B build -S qtbase \
+  pushd qt6
+  git submodule init "${_modules[@]}"
+  for module in "${_modules[@]}"; do
+    git config submodule.${module}.url "$srcdir/$module"
+  done
+  git -c protocol.file.allow=always submodule update "${_modules[@]}"
+  popd
+  cmake -G Ninja -B build -S qt6 \
     -DCMAKE_INSTALL_PREFIX=/usr \
     -DINSTALL_BINDIR=lib/qt6/bin \
     -DINSTALL_DOCDIR=share/doc/qt6 \
@@ -44,15 +73,21 @@ build() {
     -DINSTALL_INCLUDEDIR=include/qt6 \
     -DINSTALL_MKSPECSDIR=lib/qt6/mkspecs \
     -DINSTALL_EXAMPLESDIR=share/doc/qt6/examples \
-    -DQT_FEATURE_journald=ON
-#    -DQT_FEATURE_openssl_linked=ON
-  VERBOSE=1 cmake --build build
+    -DQT_FEATURE_journald=ON \
+    -DQT_BUILD_EXAMPLES=OFF \
+    -DQT_BUILD_TESTS=OFF \
+    -DFEATURE_zstd=OFF \
+    -DQT_USE_CCACHE=ON \
+    -DQT_FEATURE_assistant=OFF \
+    -DQT_FEATURE_testlib=OFF
+  #    -DQT_FEATURE_openssl_linked=ON
+    VERBOSE=1 cmake --build build
 }
 
 package() {
   DESTDIR="$pkgdir" cmake --install build
 
-  install -Dm644 qtbase/LICENSE* -t "$pkgdir"/usr/share/licenses/$pkgbase
+  # install -Dm644 qtbase/LICENSE* -t "$pkgdir"/usr/share/licenses/$pkgbase
 
   # Symlinks for backwards compatibility
   mkdir -p "$pkgdir"/usr/bin
