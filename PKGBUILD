@@ -4,31 +4,26 @@
 # Contributor: Felix Yan <felixonmars@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
-pkgname=qt6-full-git
+pkgname=wasm-qt6-full-git
 pkgver=6.0.0_r5244.g5b22f8ec
 pkgrel=1
 arch=($CARCH)
 url='https://www.qt.io'
 license=(GPL3 LGPL3 FDL custom)
+options=('!strip' '!makeflags' '!buildflags' 'staticlibs')
 pkgdesc='A cross-platform application and UI framework'
 depends=(libjpeg-turbo xcb-util-keysyms xcb-util-renderutil libgl fontconfig xdg-utils
          shared-mime-info xcb-util-wm libxrender libxi sqlite xcb-util-image mesa
-         tslib libinput libxkbcommon-x11 libproxy libcups double-conversion md4c brotli)
+         tslib libinput libxkbcommon-x11 libproxy libcups double-conversion md4c brotli
+         qt6-full-git)
 makedepends=(cmake libfbclient mariadb-libs unixodbc postgresql-libs alsa-lib gst-plugins-base-libs
              gtk3 libpulse cups freetds vulkan-headers git)
-optdepends=('postgresql-libs: PostgreSQL driver'
-            'mariadb-libs: MariaDB driver'
-            'unixodbc: ODBC driver'
-            'libfbclient: Firebird/iBase driver'
-            'freetds: MS SQL driver'
-            'gtk3: GTK platform plugin'
-            'perl: for fixqt4headers and syncqt')
-conflicts=(${pkgname%-git} qt6-multimedia-ffmpeg)
-provides=(${pkgname%-git} qt6-multimedia-ffmpeg)
+optdepends=()
+conflicts=(${pkgname%-git} wasm-qt6-multimedia-ffmpeg)
+provides=(${pkgname%-git} wasm-qt6-multimedia-ffmpeg)
 _modules=(
     qtbase
     qtmultimedia
-    qtserialport
     qtshadertools
     qtsvg
     qtdeclarative
@@ -36,7 +31,6 @@ _modules=(
     qtwebsockets
   )
 
-groups=(qt6)
 source=(
     qt6::git+https://code.qt.io/qt/qt5.git#branch=dev
     )
@@ -46,8 +40,8 @@ source=(
 
 for module in "${_modules[@]}"; do
   source+=("git+https://code.qt.io/qt/${module}.git#branch=dev")
-  conflicts+=(qt6-"${module#qt}")
-  provides+=(qt6-"${module#qt}")
+  conflicts+=(wasm-qt6-"${module#qt}")
+  provides+=(wasm-qt6-"${module#qt}")
   sha256sums+=('SKIP')
 done
 
@@ -65,16 +59,11 @@ build() {
   done
   git -c protocol.file.allow=always submodule update "${_modules[@]}"
   popd
-  cmake -G Ninja -B build -S qt6 \
-    -DCMAKE_INSTALL_PREFIX=/usr \
-    -DINSTALL_BINDIR=lib/qt6/bin \
-    -DINSTALL_DOCDIR=share/doc/qt6 \
-    -DINSTALL_ARCHDATADIR=lib/qt6 \
-    -DINSTALL_DATADIR=share/qt6 \
-    -DINSTALL_INCLUDEDIR=include/qt6 \
-    -DINSTALL_MKSPECSDIR=lib/qt6/mkspecs \
-    -DINSTALL_EXAMPLESDIR=share/doc/qt6/examples \
-    -DQT_FEATURE_journald=ON \
+  emcmake cmake -G Ninja -S qt6 -B build \
+    -DCMAKE_INSTALL_PREFIX=/usr/wasm_32 \
+    -DQT_HOST_PATH=/usr \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DFEATURE_static_runtime=ON \
     -DQT_BUILD_EXAMPLES=OFF \
     -DQT_BUILD_TESTS=OFF \
     -DFEATURE_zstd=OFF \
@@ -87,11 +76,5 @@ build() {
 package() {
   DESTDIR="$pkgdir" cmake --install build
 
-  install -Dm644 qtbase/LICENSE* -t "$pkgdir"/usr/share/licenses/$pkgbase
-
-  # Symlinks for backwards compatibility
-  mkdir -p "$pkgdir"/usr/bin
-  for _b in uic rcc qmake; do
-    ln -rs "$pkgdir"/usr/lib/qt6/bin/$_b "$pkgdir"/usr/bin/$_b-qt6
-  done
+  install -Dm644 qtbase/LICENSE* -t "$pkgdir"/usr/wasm_32/share/licenses/$pkgbase
 }
