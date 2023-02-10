@@ -14,8 +14,7 @@ options=('!strip' '!makeflags' '!buildflags' 'staticlibs')
 pkgdesc='A cross-platform application and UI framework'
 depends=(libjpeg-turbo xcb-util-keysyms xcb-util-renderutil libgl fontconfig xdg-utils
          shared-mime-info xcb-util-wm libxrender libxi sqlite xcb-util-image mesa
-         tslib libinput libxkbcommon-x11 libproxy libcups double-conversion md4c brotli
-         qt6-full-git)
+         tslib libinput libxkbcommon-x11 libproxy libcups double-conversion md4c brotli)
 makedepends=(cmake libfbclient mariadb-libs unixodbc postgresql-libs alsa-lib gst-plugins-base-libs
              gtk3 libpulse cups freetds vulkan-headers git)
 optdepends=()
@@ -48,7 +47,9 @@ done
 pkgver() {
   cd qt6
   _ver="$(git describe | sed 's/^v//;s/-.*//')"
-  echo "${_ver}_r$(git rev-list --count HEAD).g$(git rev-parse --short HEAD)"
+  local version="${_ver}_r$(git rev-list --count HEAD).g$(git rev-parse --short HEAD)"
+  depends+=(qt6-full-git="$version")
+  echo "$version"
 }
 
 build() {
