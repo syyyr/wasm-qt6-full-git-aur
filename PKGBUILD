@@ -1,4 +1,5 @@
-# Maintainer: João Figueiredo <jf.mundox@gmail.com>
+# Maintainer: Václav Kubernát <sir.venceslas@gmail.com>
+# Contributor: João Figueiredo <jf.mundox@gmail.com>
 # Contributor: Antonio Rojas <arojas@archlinux.org>
 # Contributor: Felix Yan <felixonmars@archlinux.org>
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
