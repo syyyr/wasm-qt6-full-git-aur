@@ -1,10 +1,9 @@
-pkgbase = qt6-full-git
+pkgbase = wasm-qt6-full-git
 	pkgdesc = A cross-platform application and UI framework
 	pkgver = 6.0.0_r5244.g5b22f8ec
 	pkgrel = 1
 	url = https://www.qt.io
 	arch = x86_64
-	groups = qt6
 	license = GPL3
 	license = LGPL3
 	license = FDL
@@ -43,37 +42,32 @@ pkgbase = qt6-full-git
 	depends = double-conversion
 	depends = md4c
 	depends = brotli
-	optdepends = postgresql-libs: PostgreSQL driver
-	optdepends = mariadb-libs: MariaDB driver
-	optdepends = unixodbc: ODBC driver
-	optdepends = libfbclient: Firebird/iBase driver
-	optdepends = freetds: MS SQL driver
-	optdepends = gtk3: GTK platform plugin
-	optdepends = perl: for fixqt4headers and syncqt
-	provides = qt6-full
-	provides = qt6-multimedia-ffmpeg
-	provides = qt6-base
-	provides = qt6-multimedia
-	provides = qt6-serialport
-	provides = qt6-shadertools
-	provides = qt6-svg
-	provides = qt6-declarative
-	provides = qt6-tools
-	provides = qt6-websockets
-	conflicts = qt6-full
-	conflicts = qt6-multimedia-ffmpeg
-	conflicts = qt6-base
-	conflicts = qt6-multimedia
-	conflicts = qt6-serialport
-	conflicts = qt6-shadertools
-	conflicts = qt6-svg
-	conflicts = qt6-declarative
-	conflicts = qt6-tools
-	conflicts = qt6-websockets
+	depends = qt6-full-git
+	provides = wasm-qt6-full
+	provides = wasm-qt6-multimedia-ffmpeg
+	provides = wasm-qt6-base
+	provides = wasm-qt6-multimedia
+	provides = wasm-qt6-shadertools
+	provides = wasm-qt6-svg
+	provides = wasm-qt6-declarative
+	provides = wasm-qt6-tools
+	provides = wasm-qt6-websockets
+	conflicts = wasm-qt6-full
+	conflicts = wasm-qt6-multimedia-ffmpeg
+	conflicts = wasm-qt6-base
+	conflicts = wasm-qt6-multimedia
+	conflicts = wasm-qt6-shadertools
+	conflicts = wasm-qt6-svg
+	conflicts = wasm-qt6-declarative
+	conflicts = wasm-qt6-tools
+	conflicts = wasm-qt6-websockets
+	options = !strip
+	options = !makeflags
+	options = !buildflags
+	options = staticlibs
 	source = qt6::git+https://code.qt.io/qt/qt5.git#branch=dev
 	source = git+https://code.qt.io/qt/qtbase.git#branch=dev
 	source = git+https://code.qt.io/qt/qtmultimedia.git#branch=dev
-	source = git+https://code.qt.io/qt/qtserialport.git#branch=dev
 	source = git+https://code.qt.io/qt/qtshadertools.git#branch=dev
 	source = git+https://code.qt.io/qt/qtsvg.git#branch=dev
 	source = git+https://code.qt.io/qt/qtdeclarative.git#branch=dev
@@ -87,6 +81,5 @@ pkgbase = qt6-full-git
 	sha256sums = SKIP
 	sha256sums = SKIP
 	sha256sums = SKIP
-	sha256sums = SKIP
 
-pkgname = qt6-full-git
+pkgname = wasm-qt6-full-git
