@@ -1,6 +1,6 @@
-pkgbase = qt6-base-git
+pkgbase = qt6-full-git
 	pkgdesc = A cross-platform application and UI framework
-	pkgver = 6.0.0_r58826.g6fa2ee7f4a
+	pkgver = 6.0.0_r5244.g5b22f8ec
 	pkgrel = 1
 	url = https://www.qt.io
 	arch = x86_64
@@ -50,9 +50,43 @@ pkgbase = qt6-base-git
 	optdepends = freetds: MS SQL driver
 	optdepends = gtk3: GTK platform plugin
 	optdepends = perl: for fixqt4headers and syncqt
+	provides = qt6-full
+	provides = qt6-multimedia-ffmpeg
 	provides = qt6-base
+	provides = qt6-multimedia
+	provides = qt6-serialport
+	provides = qt6-shadertools
+	provides = qt6-svg
+	provides = qt6-declarative
+	provides = qt6-tools
+	provides = qt6-websockets
+	conflicts = qt6-full
+	conflicts = qt6-multimedia-ffmpeg
 	conflicts = qt6-base
+	conflicts = qt6-multimedia
+	conflicts = qt6-serialport
+	conflicts = qt6-shadertools
+	conflicts = qt6-svg
+	conflicts = qt6-declarative
+	conflicts = qt6-tools
+	conflicts = qt6-websockets
+	source = qt6::git+https://code.qt.io/qt/qt5.git#branch=dev
 	source = git+https://code.qt.io/qt/qtbase.git#branch=dev
+	source = git+https://code.qt.io/qt/qtmultimedia.git#branch=dev
+	source = git+https://code.qt.io/qt/qtserialport.git#branch=dev
+	source = git+https://code.qt.io/qt/qtshadertools.git#branch=dev
+	source = git+https://code.qt.io/qt/qtsvg.git#branch=dev
+	source = git+https://code.qt.io/qt/qtdeclarative.git#branch=dev
+	source = git+https://code.qt.io/qt/qttools.git#branch=dev
+	source = git+https://code.qt.io/qt/qtwebsockets.git#branch=dev
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
+	sha256sums = SKIP
 	sha256sums = SKIP
 
-pkgname = qt6-base-git
+pkgname = qt6-full-git
