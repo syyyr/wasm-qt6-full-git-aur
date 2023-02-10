@@ -42,7 +42,6 @@ pkgbase = wasm-qt6-full-git
 	depends = double-conversion
 	depends = md4c
 	depends = brotli
-	depends = qt6-full-git
 	provides = wasm-qt6-full
 	provides = wasm-qt6-multimedia-ffmpeg
 	provides = wasm-qt6-base
