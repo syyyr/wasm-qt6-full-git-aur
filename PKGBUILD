@@ -81,14 +81,13 @@ build() {
     -DQT_USE_CCACHE=ON \
     -DQT_FEATURE_assistant=OFF \
     -DQT_FEATURE_testlib=OFF
-  #    -DQT_FEATURE_openssl_linked=ON
-    VERBOSE=1 cmake --build build
+  VERBOSE=1 cmake --build build
 }
 
 package() {
   DESTDIR="$pkgdir" cmake --install build
 
-  # install -Dm644 qtbase/LICENSE* -t "$pkgdir"/usr/share/licenses/$pkgbase
+  install -Dm644 qtbase/LICENSE* -t "$pkgdir"/usr/share/licenses/$pkgbase
 
   # Symlinks for backwards compatibility
   mkdir -p "$pkgdir"/usr/bin
