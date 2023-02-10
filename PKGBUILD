@@ -77,5 +77,5 @@ build() {
 package() {
   DESTDIR="$pkgdir" cmake --install build
 
-  install -Dm644 qtbase/LICENSE* -t "$pkgdir"/usr/wasm_32/share/licenses/$pkgbase
+  install -Dm644 qtbase/LICENSES/* -t "$pkgdir"/usr/wasm_32/share/licenses/$pkgbase
 }
