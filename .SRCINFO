@@ -1,6 +1,6 @@
 pkgbase = wasm-qt6-full-git
 	pkgdesc = A cross-platform application and UI framework
-	pkgver = 6.0.0_r5244.g5b22f8ec
+	pkgver = 6.0.0_r5248.g5a1ed719
 	pkgrel = 1
 	url = https://www.qt.io
 	arch = x86_64

@@ -5,7 +5,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=wasm-qt6-full-git
-pkgver=6.0.0_r5244.g5b22f8ec
+pkgver=6.0.0_r5248.g5a1ed719
 pkgrel=1
 arch=($CARCH)
 url='https://www.qt.io'
