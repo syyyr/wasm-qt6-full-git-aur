@@ -34,9 +34,10 @@ source=(
     git+https://github.com/emscripten-core/emsdk.git
     qt6::git+https://code.qt.io/qt/qt5.git#branch=dev
     )
-  sha256sums=(
-      'SKIP'
-      )
+sha256sums=(
+    'SKIP'
+    'SKIP'
+    )
 
 for module in "${_modules[@]}"; do
   source+=("git+https://code.qt.io/qt/${module}.git#branch=dev")
