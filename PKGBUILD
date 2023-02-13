@@ -31,6 +31,7 @@ _modules=(
   )
 
 source=(
+    git+https://github.com/emscripten-core/emsdk.git
     qt6::git+https://code.qt.io/qt/qt5.git#branch=dev
     )
   sha256sums=(
@@ -53,6 +54,9 @@ pkgver() {
 }
 
 build() {
+  ./emsdk/emsdk install 3.1.25
+  ./emsdk/emsdk activate 3.1.25
+  source "./emsdk/emsdk_env.sh"
   pushd qt6
   git submodule init "${_modules[@]}"
   for module in "${_modules[@]}"; do
