@@ -5,7 +5,7 @@
 # Contributor: Andrea Scarpino <andrea@archlinux.org>
 
 pkgname=wasm-qt6-full-git
-pkgver=6.0.0_r5248.g5a1ed719
+pkgver=6.0.0_r5250.gb9c25127
 pkgrel=1
 arch=($CARCH)
 url='https://www.qt.io'
@@ -46,6 +46,11 @@ for module in "${_modules[@]}"; do
   sha256sums+=('SKIP')
 done
 
+prepare() {
+  ./emsdk/emsdk install 3.1.25
+  ./emsdk/emsdk activate 3.1.25
+}
+
 pkgver() {
   cd qt6
   _ver="$(git describe | sed 's/^v//;s/-.*//')"
@@ -55,8 +60,6 @@ pkgver() {
 }
 
 build() {
-  ./emsdk/emsdk install 3.1.25
-  ./emsdk/emsdk activate 3.1.25
   source "./emsdk/emsdk_env.sh"
   pushd qt6
   git submodule init "${_modules[@]}"
